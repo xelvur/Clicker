@@ -37,20 +37,8 @@ public class MainActivity extends Activity {
             countView.setText(String.valueOf(count));
 
 			// Анимация кнопки сжимание
-			ObjectAnimator btnScaleXDown = ObjectAnimator.ofFloat(clickBtn, "ScaleX", 1f, 0.85f);
-			ObjectAnimator btnScaleYDown = ObjectAnimator.ofFloat(clickBtn, "ScaleY", 1f, 0.85f);
-			ObjectAnimator btnScaleXUp = ObjectAnimator.ofFloat(clickBtn, "ScaleX", 0.85f, 1f);
-			ObjectAnimator btnScaleYUp = ObjectAnimator.ofFloat(clickBtn, "ScaleY", 0.85f, 1f);
 
-			btnScaleXDown.setDuration(80);
-			btnScaleYDown.setDuration(80);
-			btnScaleXUp.setDuration(120);
-			btnScaleYUp.setDuration(120);
-
-			btnScaleXDown.setInterpolator(new LinearInterpolator());
-			btnScaleYDown.setInterpolator(new LinearInterpolator());
-			btnScaleXUp.setInterpolator(new LinearInterpolator());
-			btnScaleYUp.setInterpolator(new LinearInterpolator());
+			/* Удалена */
 
 			// Анимация текста
 			ObjectAnimator textScaleXUp = ObjectAnimator.ofFloat(countView, "ScaleX", 1f, 1.3f);
@@ -69,10 +57,10 @@ public class MainActivity extends Activity {
 			textScaleYDown.setInterpolator(new LinearInterpolator());
 
 			AnimatorSet down = new AnimatorSet();
-			down.playTogether(btnScaleXDown, btnScaleYDown, btnScaleXUp, btnScaleYUp);
+			down.playTogether(textScaleXUp, textScaleXDown);
 
 			AnimatorSet up = new AnimatorSet();
-			up.playTogether(btnScaleXUp, btnScaleYUp, textScaleXDown, textScaleYDown);
+			up.playTogether(textScaleXDown, textScaleYDown);
 
 			AnimatorSet full = new AnimatorSet();
 			full.playSequentially(down, up);
@@ -81,16 +69,15 @@ public class MainActivity extends Activity {
 
 		// Fps loop каждые 16мс
 		running = true;
-		Runnable fpsLoop = new Runnable() {
-			@Override
-			public void run() {
-				if (!running) return;
-				double fps = nativeGetFps();
-				fpsView.setText(String.format("FPS: %.0f", fps));
-				fpsHandler.postDelayed(this, 16);
-			}
-		};
-		fpsHandler.post(fpsLoop);
+        android.view.Choreographer.getInstance().postFrameCallback(new android.view.Choreographer.FrameCallback() {
+            @Override
+            public void doFrame(long frameTimeNanos) {
+                if (!running) return;
+                double fps = nativeGetFps();
+                fpsView.setText(String.format("FPS: %.0f", fps));
+                android.view.Choreographer.getInstance().postFrameCallback(this);
+            }
+        });
     }
 
 	@Override
