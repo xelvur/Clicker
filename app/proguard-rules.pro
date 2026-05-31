@@ -1,3 +1,3 @@
 -keep class com.clicker.MainActivity {
-    native <methods>;
+    public native <methods>;
 }
