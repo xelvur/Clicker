@@ -23,14 +23,15 @@
         android:id="@+id/clickBtn"
         android:layout_width="220dp"
         android:layout_height="220dp"
-        android:text="КЛИКАЙ"
+        android:text="Жми"
         android:textSize="24sp"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#CC0000"
+		android:backgroundTint="@drawable/round_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintVerticalBias="0.6"
         android:stateListAnimator="@null"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
