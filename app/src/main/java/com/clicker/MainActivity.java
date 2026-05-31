@@ -1,5 +1,8 @@
 package com.clicker;
 
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.content.Context;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -30,17 +33,31 @@ public class MainActivity extends Activity {
 
         TextView countView = findViewById(R.id.countView);
 		TextView fpsView = findViewById(R.id.fpsView);
-        Button clickBtn   = findViewById(R.id.clickBtn);
+        Button clickBtn = findViewById(R.id.clickBtn);
+		Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         clickBtn.setOnClickListener(v -> {
             long count = nativeClick();
             countView.setText(String.valueOf(count));
 
-			// Анимация кнопки сжимание
+			// кнопка
 
-			/* Удалена */
+			/* Тактильный отклик */
+			if (vibrator != null && vibrator.hasVibrator()) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK));
+                } else {
+                    vibrator.vibrate(VibrationEffect.createOneShot(20, 80));
+                }
+            }
 
-			// Анимация текста
+			/* Анимация удалена */
+
+
+
+			// Счет кликов
+			
+			/* Анимация текста */
 			ObjectAnimator textScaleXUp = ObjectAnimator.ofFloat(countView, "ScaleX", 1f, 1.3f);
 			ObjectAnimator textScaleYUp = ObjectAnimator.ofFloat(countView, "ScaleY", 1f, 1.3f);
 			ObjectAnimator textScaleXDown = ObjectAnimator.ofFloat(countView, "ScaleX", 1.3f, 1f);
