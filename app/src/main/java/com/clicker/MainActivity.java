@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +18,10 @@ public class MainActivity extends Activity {
     // объявляем нативные методы
     public native long nativeClick();
     public native void nativeReset();
+	public native double nativeGetFps();
+
+	private Handler fpsHandler = new Handler();
+	private boolean running = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         TextView countView = findViewById(R.id.countView);
+		TextView fpsView = findViewById(R.id.fpsView);
         Button clickBtn   = findViewById(R.id.clickBtn);
 
         clickBtn.setOnClickListener(v -> {
@@ -72,5 +78,25 @@ public class MainActivity extends Activity {
 			full.playSequentially(down, up);
 			full.start();
         });
+
+		// Fps loop каждые 16мс
+		running = true;
+		Runnable fpsLoop = new Runnable() {
+			@Override
+			public void run() {
+				if (!running) return;
+				double fps = nativeGetFps();
+				fpsView.setText(String.format("FPS: %.0f", fps));
+				fpsHandler.postDelayed(this, 16);
+			}
+		};
+		fpsHandler.post(fpsLoop);
     }
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		running = false;
+		fpsHandler.removeCallbacksAndMessages(null);
+	}
 }
