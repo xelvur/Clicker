@@ -42,7 +42,7 @@
         android:id="@+id/clickBtn"
         android:layout_width="220dp"
         android:layout_height="220dp"
-        android:text="КЛИКАЙ"
+        android:text="Жми"
         android:textSize="24sp"
         android:textColor="#FFFFFF"
         android:background="@drawable/round_button"
