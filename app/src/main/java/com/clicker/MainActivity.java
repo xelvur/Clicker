@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                     vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK));
                 } else {
-                    vibrator.vibrate(VibrationEffect.createOneShot(20, 80));
+                    vibrator.vibrate(VibrationEffect.createOneShot(15, 10));
                 }
             }
 
