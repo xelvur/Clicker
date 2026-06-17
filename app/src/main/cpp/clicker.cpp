@@ -3,7 +3,7 @@
 #include <chrono>
 
 // Хранит счётчик кликов на стороне C++
-static int64_t click_count = 0;
+static int64_t click_count = 9999;
 
 
 // Для фпс
